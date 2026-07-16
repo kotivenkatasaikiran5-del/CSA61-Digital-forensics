@@ -1,0 +1,96 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMPsTW2Vr0nzr8N3ep9wXdN",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/kotivenkatasaikiran5-del/CSA61-Digital-forensics/blob/main/EXP-2\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "scF0vGZ9UwP6",
+        "outputId": "2f72f1fc-499f-488a-efff-c333ed6732fd"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Error: 'evidence.txt' not found.\n"
+          ]
+        }
+      ],
+      "source": [
+        "import hashlib\n",
+        "\n",
+        "# Function to calculate SHA-256 hash of a file\n",
+        "def calculate_hash(filename):\n",
+        "    sha256 = hashlib.sha256()\n",
+        "\n",
+        "    with open(filename, \"rb\") as file:\n",
+        "        while True:\n",
+        "            data = file.read(4096)\n",
+        "            if not data:\n",
+        "                break\n",
+        "            sha256.update(data)\n",
+        "\n",
+        "    return sha256.hexdigest()\n",
+        "\n",
+        "\n",
+        "# Specify the evidence file\n",
+        "filename = \"evidence.txt\"\n",
+        "\n",
+        "try:\n",
+        "    # Initial hash (record when evidence is collected)\n",
+        "    original_hash = calculate_hash(filename)\n",
+        "    print(\"Original SHA-256 Hash:\")\n",
+        "    print(original_hash)\n",
+        "\n",
+        "    input(\"\\nPress Enter to verify the file later...\")\n",
+        "\n",
+        "    # Recalculate hash during verification\n",
+        "    current_hash = calculate_hash(filename)\n",
+        "    print(\"\\nCurrent SHA-256 Hash:\")\n",
+        "    print(current_hash)\n",
+        "\n",
+        "    # Verify integrity\n",
+        "    if original_hash == current_hash:\n",
+        "        print(\"\\nVerification Successful\")\n",
+        "        print(\"The evidence file has not been altered.\")\n",
+        "        print(\"Hash values match, supporting the chain of custody.\")\n",
+        "    else:\n",
+        "        print(\"\\nVerification Failed\")\n",
+        "        print(\"The evidence file has been modified.\")\n",
+        "        print(\"Hash values do not match.\")\n",
+        "\n",
+        "except FileNotFoundError:\n",
+        "    print(f\"Error: '{filename}' not found.\")"
+      ]
+    }
+  ]
+}
