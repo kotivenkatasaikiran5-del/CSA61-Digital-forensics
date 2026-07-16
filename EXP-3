@@ -1,0 +1,93 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOpPsop5XcFeR2oMLOseOBE",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/kotivenkatasaikiran5-del/CSA61-Digital-forensics/blob/main/EXP-3\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "3KQHvo0jXdmg"
+      },
+      "outputs": [],
+      "source": [
+        "# Simple Phishing Email Detector\n",
+        "\n",
+        "def detect_phishing(sender, subject, body):\n",
+        "    score = 0\n",
+        "\n",
+        "    # Suspicious sender keywords\n",
+        "    suspicious_senders = [\"support@\", \"security@\", \"admin@\", \"noreply@\"]\n",
+        "    # Suspicious subject keywords\n",
+        "    suspicious_subjects = [\n",
+        "        \"urgent\", \"verify\", \"account\", \"password\",\n",
+        "        \"won\", \"prize\", \"limited time\", \"login\"\n",
+        "    ]\n",
+        "    # Suspicious body keywords\n",
+        "    suspicious_body = [\n",
+        "        \"click here\", \"verify your account\", \"update your password\",\n",
+        "        \"bank\", \"credit card\", \"confirm\", \"login\",\n",
+        "        \"free\", \"gift\", \"urgent\"\n",
+        "    ]\n",
+        "\n",
+        "    # Check sender\n",
+        "    if any(keyword in sender.lower() for keyword in suspicious_senders):\n",
+        "        score += 1\n",
+        "\n",
+        "    # Check subject\n",
+        "    for keyword in suspicious_subjects:\n",
+        "        if keyword in subject.lower():\n",
+        "            score += 1\n",
+        "\n",
+        "    # Check body\n",
+        "    for keyword in suspicious_body:\n",
+        "        if keyword in body.lower():\n",
+        "            score += 1\n",
+        "\n",
+        "    return score\n",
+        "\n",
+        "\n",
+        "# Input email details\n",
+        "sender = input(\"Enter sender email: \")\n",
+        "subject = input(\"Enter subject: \")\n",
+        "body = input(\"Enter email body: \")\n",
+        "\n",
+        "score = detect_phishing(sender, subject, body)\n",
+        "\n",
+        "print(\"\\nPhishing Detection Result\")\n",
+        "print(\"-\" * 30)\n",
+        "print(\"Suspicion Score:\", score)\n",
+        "\n",
+        "if score >= 5:\n",
+        "    print(\"⚠ High Risk: This email is likely a phishing email.\")\n",
+        "elif score >= 3:\n",
+        "    print(\"⚠ Medium Risk: This email contains several phishing indicators.\")\n",
+        "else:\n",
+        "    print(\"✓ Low Risk: Few phishing indicators detected.\")"
+      ]
+    }
+  ]
+}
